@@ -1,9 +1,7 @@
 from sklearn.neural_network import MLPClassifier
-from sklearn.datasets import make_classification
-from sklearn.model_selection import train_test_split
 
 
-# Gera as 256 combinações únicas para determinar o array de playerEntry
+# Gera as 64 combinações únicas para determinar o array de playerConditionEntry
 def generate_combinations(length):
     combinations = []
     for i in range(2 ** length):
@@ -12,7 +10,7 @@ def generate_combinations(length):
     return combinations
 
 
-# gera as respostas para as 256 combinações
+# gera as respostas para as 64 combinações
 def generate_responses(combinations):
     responses = []
     for combination in combinations:
@@ -21,39 +19,37 @@ def generate_responses(combinations):
     return responses
 
 
-# As entradas para as informações do player seguem a seguinte ordem:
-# Col 1 = Armado
-# Col 2 = Armadura
-# Col 3 = Afinidade a Magia
-# Col 4 = Afinidade Física
-# Col 5 = Melhoria no Ataque
-# Col 6 = Melhoria no Agilidade
-# Col 7 = Possuí Acessórios que o fortalecem
-# Col 8 = Conhecimento em negociação
-playerEntry = generate_combinations(8)
+# As entradas para as informações da condição do player seguem a seguinte ordem:
+# Col 1 - Envenenado
+# Col 2 - Encantado
+# Col 3 - Confuso
+# Col 4 - Amaldiçoado
+# Col 5 - Poucos Pontos de Vida
+# Col 6 - Poucos Pontos de Mana
+playerConditionEntry = generate_combinations(6)
+
 
 # Resultado de acordo com as propriedades informadas do player
-# 1 = Muito Fraco
-# 7 = Muito Forte
-playerStrength = generate_responses(playerEntry)
+# 1 = Condição Boa
+# 7 = Condição Ruim
+playerConditionResponse = generate_responses(playerConditionEntry)
+
 
 # Definição da rede neural
-playerAI = MLPClassifier(solver='lbfgs', activation='logistic', alpha=1e-8, hidden_layer_sizes=(250, 250),
+playerConditionAI = MLPClassifier(solver='lbfgs', activation='logistic', alpha=1e-8, hidden_layer_sizes=(250, 250),
                         random_state=1)
 # Treina a rede neural para encaixar os dois arrays
-playerAI.fit(playerEntry, playerStrength)
+playerConditionAI.fit(playerConditionEntry, playerConditionResponse)
 print("Rede Neural Treinada!")
 
 # Lista de string com questões para iterar abaixo
 questions = [
-    "está armado?",
-    "está vestindo armadura?",
-    "possuí afinidade a mágia?",
-    "possuí afinidade a dano físico?",
-    "possuí uma melhoria no ataque?",
-    "possuí uma melhoria na agilidade?",
-    "possuí acessórios que o fortalecem?",
-    "possui conhecimento com negociações?",
+    "está envenenado?",
+    "está encantado?",
+    "está confuso?",
+    "está amaldiçoado?",
+    "está com poucos pontos de vida?",
+    "está com poucos pontos de mana?"
 ]
 
 # Array com os valores inseridos
@@ -61,7 +57,7 @@ searchQuery = []
 # Posição de index de qual pergunta é a atual
 questionPosition = 0
 # O tamanho do array de pesquisa precisa ser 8 (mesma quantidade de colunas da matriz playerEntry)
-while len(searchQuery) < 8:
+while len(searchQuery) < 6:
     # define a variável option primeiro, para evitar que qualquer valor além de 1 ou 0 seja inserido
     option = -1
     while option != 0 and option != 1:
@@ -73,6 +69,6 @@ while len(searchQuery) < 8:
     questionPosition += 1
 
 # Faz a busca e pega o resultado da IA
-# EX: [1,1,1,1,1,1,1,1], Resposta: [7]
-result = playerAI.predict([searchQuery])
+# EX: [1,1,1,1,1,1], Resposta: [7]
+result = playerConditionAI.predict([searchQuery])
 print(result)
