@@ -2,109 +2,10 @@ from sklearn.neural_network import MLPClassifier
 from PIL import Image
 import matplotlib.pyplot as plt
 import random
+from data import actionResultData, actionInputData, enemyData, ANSI
 
-enemies = [
-    {
-        "image": "./assets/001.webp",
-        "name": "Jack Frost",
-        "chance": 10
-    },
-    {
-        "image": "./assets/002.webp",
-        "name": "Jack-o-Lantern",
-        "chance": 10
-    },
-    {
-        "image": "./assets/003.webp",
-        "name": "Pixie",
-        "chance": 10
-    },
-    {
-        "image": "./assets/004.webp",
-        "name": "Lucifer",
-        "chance": 0.25
-    },
-    {
-        "image": "./assets/005.webp",
-        "name": "Vishnu",
-        "chance": 2.5
-    },
-    {
-        "image": "./assets/006.webp",
-        "name": "Angel",
-        "chance": 10
-    },
-    {
-        "image": "./assets/007.webp",
-        "name": "Daemon",
-        "chance": 10
-    },
-    {
-        "image": "./assets/008.webp",
-        "name": "Slime",
-        "chance": 10
-    },
-    {
-        "image": "./assets/009.webp",
-        "name": "Metatron",
-        "chance": 1
-    },
-    {
-        "image": "./assets/010.webp",
-        "name": "Chimera",
-        "chance": 8
-    },
-    {
-        "image": "./assets/011.webp",
-        "name": "Cerberus",
-        "chance": 5
-    },
-    {
-        "image": "./assets/012.webp",
-        "name": "Hecatoncheires",
-        "chance": 6
-    },
-    {
-        "image": "./assets/013.webp",
-        "name": "Mada",
-        "chance": 7
-    },
-    {
-        "image": "./assets/014.webp",
-        "name": "Loki",
-        "chance": 3
-    },
-    {
-        "image": "./assets/015.webp",
-        "name": "Thor",
-        "chance": 4
-    },
-    {
-        "image": "./assets/016.webp",
-        "name": "Shiva",
-        "chance": 0.9
-    },
-    {
-        "image": "./assets/017.webp",
-        "name": "Momunofu",
-        "chance": 6
-    },
-    {
-        "image": "./assets/018.webp",
-        "name": "Sui-Ki",
-        "chance": 5
-    },
-    {
-        "image": "./assets/019.webp",
-        "name": "Parvati",
-        "chance": 2
-    },
-    {
-        "image": "./assets/020.webp",
-        "name": "Beelzebub",
-        "chance": 3
-    },
-]
+# Dados dos inimigos para ilustrar a aplicação
+enemies = enemyData
 
 
 # region Funções
@@ -123,12 +24,12 @@ def getRandomEnemy():
 
     printImage(random_object["image"])
 
-    print(f"ATENÇÃO!")
-    print(f"{random_object["name"]} apareceu!")
+    print(f"\n{ANSI.BOLD}ATENÇÃO!{ANSI.END}\n")
+    print(f"{ANSI.UNDERLINE}{random_object["name"]}{ANSI.END} apareceu!")
 
 
-# Gera as combinações únicas para determinar o array de entrada
-def generate_combinations(length):
+# Gera combinações binárias únicas para determinar o array de entrada
+def generateBinaryCombinations(length):
     combinations = []
     for i in range(2 ** length):
         combination = [int(x) for x in bin(i)[2:].zfill(length)]
@@ -136,15 +37,14 @@ def generate_combinations(length):
     return combinations
 
 
-# gera as respostas para as combinações
-def generate_responses(combinations):
+# gera as respostas para as combinações binárias
+def generateBinaryResponses(combinations):
     responses = []
     for combination in combinations:
         response = min(sum(combination) + 1, 7)
         responses.append(response)
 
     return responses
-
 # endregion
 
 
@@ -214,12 +114,12 @@ print("Rede Neural Inimigo Treinada!")
 # Col 6 = Melhoria no Agilidade
 # Col 7 = Possuí Acessórios que o fortalecem
 # Col 8 = Conhecimento em negociação
-playerEntry = generate_combinations(8)
+playerEntry = generateBinaryCombinations(8)
 
 # Resultado de acordo com as propriedades informadas do player
 # 1 = Muito Fraco
 # 7 = Muito Forte
-playerStrength = generate_responses(playerEntry)
+playerStrength = generateBinaryResponses(playerEntry)
 
 # Definição da rede neural
 playerAI = MLPClassifier(solver='lbfgs', activation='logistic', alpha=1e-8, hidden_layer_sizes=(250, 250),
@@ -238,13 +138,13 @@ print("Rede Neural Player Treinada!")
 # Col 4 - Amaldiçoado
 # Col 5 - Poucos Pontos de Vida
 # Col 6 - Poucos Pontos de Mana
-playerConditionEntry = generate_combinations(6)
+playerConditionEntry = generateBinaryCombinations(6)
 
 
 # Resultado de acordo com as propriedades informadas do player
 # 1 = Condição Boa
 # 7 = Condição Ruim
-playerConditionResponse = generate_responses(playerConditionEntry)
+playerConditionResponse = generateBinaryResponses(playerConditionEntry)
 
 
 # Definição da rede neural
@@ -256,11 +156,25 @@ print("Rede Neural Player Condition Treinada!")
 # endregion
 
 
+# region ActionAI
+# Input que indica a diferença de força entre inimigo/player (varia de 7 a -7)
+# e a saúde do jogador (varia de 1 = boa a 7 = ruim)
+playerActionInput = actionInputData
+# Retorna um index de label de ação
+playerActionResponse = actionResultData
+
+# Define a rede que irá responder com um index de label de ação
+actionAI = MLPClassifier(solver='lbfgs', activation='logistic', alpha=1e-8, hidden_layer_sizes=(400, 400),
+                         random_state=1)
+# Treina a rede neural para encaixar os dois arrays
+actionAI.fit(playerActionInput, playerActionResponse)
+print("Rede Neural Player Action Treinada!")
+# endregion
+
 actionLabel = [
     "FUGIR",
     "ATACAR",
     "CURAR",
-    "ATACAR COM MAGIA",
     "NEGOCIAR",
 ]
 
@@ -288,50 +202,47 @@ questions = [
 
 print("\n")
 
-getRandomEnemy()
+while True:
+    getRandomEnemy()
 
-print("\n")
-# Array com os valores inseridos
-searchQuery = []
-# Posição de index de qual pergunta é a atual
-questionPosition = 0
-# O tamanho do array de pesquisa precisa ser 4 (mesma quantidade de colunas da matriz enemyEntry
-while len(searchQuery) < 18:
-    # define a variável option primeiro, para evitar que qualquer valor além de 1 ou 0 seja inserido
-    option = -1
-    if len(searchQuery) < 4:
-        while option != 0 and option != 1:
-            option = int(input(f"O inimigo {questions[questionPosition]}\n"))
-    else:
-        while option != 0 and option != 1:
-            option = int(input(f"Você {questions[questionPosition]}\n"))
+    print("\n")
+    # Array com os valores inseridos
+    searchQuery = []
+    # Posição de index de qual pergunta é a atual
+    questionPosition = 0
+    # O tamanho do array de pesquisa precisa ser 4 (mesma quantidade de colunas da matriz enemyEntry
+    while len(searchQuery) < 18:
+        # define a variável option primeiro, para evitar que qualquer valor além de 1 ou 0 seja inserido
+        option = -1
+        if len(searchQuery) < 4:
+            while option != 0 and option != 1:
+                option = int(input(f"O inimigo {questions[questionPosition]}\n"))
+        else:
+            while option != 0 and option != 1:
+                option = int(input(f"Você {questions[questionPosition]}\n"))
 
-    # Adiciona o valor digitado de option para o array de search query
-    searchQuery.append(option)
-    # Muda a posição do index de pergunta para a próxima da lista
-    questionPosition += 1
+        # Adiciona o valor digitado de option para o array de search query
+        searchQuery.append(option)
+        # Muda a posição do index de pergunta para a próxima da lista
+        questionPosition += 1
 
-# Faz a busca e pega o resultado da IA
-# EX: [1,1,1,1], Resposta: [7]
-enemyResult = enemyAI.predict([searchQuery[0:4]])
-# Faz a busca e pega o resultado da IA
-# EX: [1,1,1,1,1,1,1,1], Resposta: [7, 1]
-resultPlayer = playerAI.predict([searchQuery[4:12]])
-# Faz a busca e pega o resultado da IA
-# EX: [1,1,1,1,1,1], Resposta: [7]
-resultPlayerCondition = playerConditionAI.predict([searchQuery[12:18]])
+    # Faz a busca e pega o resultado da IA
+    # EX: [1,1,1,1], Resposta: [7]
+    enemyResult = enemyAI.predict([searchQuery[0:4]])
+    # Faz a busca e pega o resultado da IA
+    # EX: [1,1,1,1,1,1,1,1], Resposta: [7, 1]
+    resultPlayer = playerAI.predict([searchQuery[4:12]])
+    # Faz a busca e pega o resultado da IA
+    # EX: [1,1,1,1,1,1], Resposta: [7]
+    resultPlayerCondition = playerConditionAI.predict([searchQuery[12:18]])
 
-print("\n")
+    print("\n")
 
-# Calcula a diferença de poder entre o inimigo e o player
-playerStrengthDiff = resultPlayer[0] - enemyResult[0]
+    # Calcula a diferença de poder entre o inimigo e o player
+    playerStrengthDiff = resultPlayer[0] - enemyResult[0]
 
-# TODO: implementar retorno inteligente
-if resultPlayer > 0:
-    print(actionLabel[1])
-elif playerStrengthDiff < 0:
-    print(actionLabel[0])
-else:
-    print(actionLabel[-1])
+    # Prevê qual ação se deve tomar baseado na diferença de força e a condição do player
+    actionResult = actionAI.predict([[playerStrengthDiff, resultPlayerCondition[0]]])
 
-
+    print(f"{ANSI.UNDERLINE}A melhor ação é:{ANSI.END}")
+    print(f"{ANSI.BOLD}{actionLabel[actionResult[0]]}{ANSI.END}")
