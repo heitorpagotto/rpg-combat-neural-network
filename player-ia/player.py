@@ -4,7 +4,7 @@ from sklearn.model_selection import train_test_split
 
 
 # Gera as 256 combinações únicas para determinar o array de playerEntry
-def generate_combinations(length):
+def generateBinaryCombinations(length):
     combinations = []
     for i in range(2 ** length):
         combination = [int(x) for x in bin(i)[2:].zfill(length)]
@@ -13,7 +13,7 @@ def generate_combinations(length):
 
 
 # gera as respostas para as 256 combinações
-def generate_responses(combinations):
+def generateBinaryResponses(combinations):
     responses = []
     for combination in combinations:
         response = min(sum(combination) + 1, 7)  # Add 1 since responses start from 1
@@ -30,12 +30,12 @@ def generate_responses(combinations):
 # Col 6 = Melhoria no Agilidade
 # Col 7 = Possuí Acessórios que o fortalecem
 # Col 8 = Conhecimento em negociação
-playerEntry = generate_combinations(8)
+playerEntry = generateBinaryCombinations(8)
 
 # Resultado de acordo com as propriedades informadas do player
 # 1 = Muito Fraco
 # 7 = Muito Forte
-playerStrength = generate_responses(playerEntry)
+playerStrength = generateBinaryResponses(playerEntry)
 
 # Definição da rede neural
 playerAI = MLPClassifier(solver='lbfgs', activation='logistic', alpha=1e-8, hidden_layer_sizes=(250, 250),
@@ -48,8 +48,8 @@ print("Rede Neural Treinada!")
 questions = [
     "está armado?",
     "está vestindo armadura?",
-    "possuí afinidade a mágia?",
-    "possuí afinidade a dano físico?",
+    "possuí afinidade com mágia?",
+    "possuí afinidade com dano físico?",
     "possuí uma melhoria no ataque?",
     "possuí uma melhoria na agilidade?",
     "possuí acessórios que o fortalecem?",

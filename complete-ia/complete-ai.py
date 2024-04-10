@@ -194,7 +194,7 @@ questions = [
     "possui conhecimento com negociações?",
     "está envenenado?",
     "está encantado?",
-    "está confuso?",
+    "está desnorteado?",
     "está amaldiçoado?",
     "está com poucos pontos de vida?",
     "está com poucos pontos de mana?"
@@ -240,7 +240,7 @@ while True:
 
     # Calcula a diferença de poder entre o inimigo e o player
     playerStrengthDiff = resultPlayer[0] - enemyResult[0]
-
+    print(playerStrengthDiff, resultPlayerCondition[0])
     # Prevê qual ação se deve tomar baseado na diferença de força e a condição do player
     actionResult = actionAI.predict([[playerStrengthDiff, resultPlayerCondition[0]]])
 

@@ -2,7 +2,7 @@ from sklearn.neural_network import MLPClassifier
 
 
 # Gera as 64 combinações únicas para determinar o array de playerConditionEntry
-def generate_combinations(length):
+def generateBinaryCombinations(length):
     combinations = []
     for i in range(2 ** length):
         combination = [int(x) for x in bin(i)[2:].zfill(length)]
@@ -11,7 +11,7 @@ def generate_combinations(length):
 
 
 # gera as respostas para as 64 combinações
-def generate_responses(combinations):
+def generateBinaryResponses(combinations):
     responses = []
     for combination in combinations:
         response = min(sum(combination) + 1, 7)  # Add 1 since responses start from 1
@@ -26,13 +26,13 @@ def generate_responses(combinations):
 # Col 4 - Amaldiçoado
 # Col 5 - Poucos Pontos de Vida
 # Col 6 - Poucos Pontos de Mana
-playerConditionEntry = generate_combinations(6)
+playerConditionEntry = generateBinaryCombinations(6)
 
 
 # Resultado de acordo com as propriedades informadas do player
 # 1 = Condição Boa
 # 7 = Condição Ruim
-playerConditionResponse = generate_responses(playerConditionEntry)
+playerConditionResponse = generateBinaryResponses(playerConditionEntry)
 
 
 # Definição da rede neural
@@ -46,7 +46,7 @@ print("Rede Neural Treinada!")
 questions = [
     "está envenenado?",
     "está encantado?",
-    "está confuso?",
+    "está desnorteado?",
     "está amaldiçoado?",
     "está com poucos pontos de vida?",
     "está com poucos pontos de mana?"
