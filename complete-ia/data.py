@@ -8,127 +8,127 @@ class ANSI:
 # Dados dos inimigos para ilustrar a aplicação
 enemyData = [
     {
-        "image": "./assets/001.webp",
+        "image": "./assets/001.png",
         "name": "Jack Frost",
         "chance": 10
     },
     {
-        "image": "./assets/002.webp",
+        "image": "./assets/002.png",
         "name": "Jack-o-Lantern",
         "chance": 10
     },
     {
-        "image": "./assets/003.webp",
+        "image": "./assets/003.png",
         "name": "Pixie",
         "chance": 10
     },
     {
-        "image": "./assets/004.webp",
+        "image": "./assets/004.png",
         "name": "Lucifer",
         "chance": 0.25
     },
     {
-        "image": "./assets/005.webp",
+        "image": "./assets/005.png",
         "name": "Vishnu",
         "chance": 2.5
     },
     {
-        "image": "./assets/006.webp",
+        "image": "./assets/006.png",
         "name": "Angel",
         "chance": 10
     },
     {
-        "image": "./assets/007.webp",
+        "image": "./assets/007.png",
         "name": "Daemon",
         "chance": 10
     },
     {
-        "image": "./assets/008.webp",
+        "image": "./assets/008.png",
         "name": "Slime",
         "chance": 10
     },
     {
-        "image": "./assets/009.webp",
+        "image": "./assets/009.png",
         "name": "Metatron",
         "chance": 1
     },
     {
-        "image": "./assets/010.webp",
+        "image": "./assets/010.png",
         "name": "Chimera",
         "chance": 8
     },
     {
-        "image": "./assets/011.webp",
+        "image": "./assets/011.png",
         "name": "Cerberus",
         "chance": 5
     },
     {
-        "image": "./assets/012.webp",
+        "image": "./assets/012.png",
         "name": "Hecatoncheires",
         "chance": 6
     },
     {
-        "image": "./assets/013.webp",
+        "image": "./assets/013.png",
         "name": "Mada",
         "chance": 7
     },
     {
-        "image": "./assets/014.webp",
+        "image": "./assets/014.png",
         "name": "Loki",
         "chance": 3
     },
     {
-        "image": "./assets/015.webp",
+        "image": "./assets/015.png",
         "name": "Thor",
         "chance": 4
     },
     {
-        "image": "./assets/016.webp",
+        "image": "./assets/016.png",
         "name": "Shiva",
         "chance": 0.9
     },
     {
-        "image": "./assets/017.webp",
+        "image": "./assets/017.png",
         "name": "Momunofu",
         "chance": 6
     },
     {
-        "image": "./assets/018.webp",
+        "image": "./assets/018.png",
         "name": "Sui-Ki",
         "chance": 5
     },
     {
-        "image": "./assets/019.webp",
+        "image": "./assets/019.png",
         "name": "Parvati",
         "chance": 2
     },
     {
-        "image": "./assets/020.webp",
+        "image": "./assets/020.png",
         "name": "Beelzebub",
         "chance": 3
     },
     {
-        "image": "./assets/021.webp",
+        "image": "./assets/021.png",
         "name": "YHVH",
-        "chance": 0.1
+        "chance": 0.2
     },
     {
-        "image": "./assets/022.webp",
+        "image": "./assets/022.png",
         "name": "Mastema",
         "chance": 1
     },
     {
-        "image": "./assets/023.webp",
+        "image": "./assets/023.png",
         "name": "Onmoraki",
         "chance": 10
     },
     {
-        "image": "./assets/024.webp",
+        "image": "./assets/024.png",
         "name": "Demoneeho",
         "chance": 5
     },
     {
-        "image": "./assets/025.webp",
+        "image": "./assets/025.png",
         "name": "Sandalphon",
         "chance": 2
     },

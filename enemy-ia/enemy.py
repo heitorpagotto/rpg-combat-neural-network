@@ -71,7 +71,7 @@ while len(searchQuery) < 4:
     # define a variável option primeiro, para evitar que qualquer valor além de 1 ou 0 seja inserido
     option = -1
     while option != 0 and option != 1:
-      option = int(input(f"O inimigo {questions[questionPosition]}\n"))
+      option = int(input(f"O inimigo {questions[questionPosition]} (Responder somente com 0 ou 1. 0=Não, 1=Sim)\n"))
 
     # Adiciona o valor digitado de option para o array de search query
     searchQuery.append(option)

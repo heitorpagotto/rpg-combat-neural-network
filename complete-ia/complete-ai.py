@@ -2,6 +2,7 @@ from sklearn.neural_network import MLPClassifier
 from PIL import Image
 import matplotlib.pyplot as plt
 import random
+import time
 from data import actionResultData, actionInputData, enemyData, ANSI
 
 # Dados dos inimigos para ilustrar a aplicação
@@ -25,7 +26,7 @@ def getRandomEnemy():
     printImage(random_object["image"])
 
     print(f"\n{ANSI.BOLD}ATENÇÃO!{ANSI.END}\n")
-    print(f"{ANSI.UNDERLINE}{random_object["name"]}{ANSI.END} apareceu!")
+    print(f"{ANSI.UNDERLINE}{random_object['name']}{ANSI.END} apareceu!")
 
 
 # Gera combinações binárias únicas para determinar o array de entrada
@@ -216,10 +217,10 @@ while True:
         option = -1
         if len(searchQuery) < 4:
             while option != 0 and option != 1:
-                option = int(input(f"O inimigo {questions[questionPosition]}\n"))
+                option = int(input(f"O inimigo {questions[questionPosition]} (Responder somente com 0 ou 1. 0=Não, 1=Sim)\n"))
         else:
             while option != 0 and option != 1:
-                option = int(input(f"Você {questions[questionPosition]}\n"))
+                option = int(input(f"Você {questions[questionPosition]} (Responder somente com 0 ou 1. 0=Não, 1=Sim)\n"))
 
         # Adiciona o valor digitado de option para o array de search query
         searchQuery.append(option)
@@ -240,9 +241,9 @@ while True:
 
     # Calcula a diferença de poder entre o inimigo e o player
     playerStrengthDiff = resultPlayer[0] - enemyResult[0]
-    print(playerStrengthDiff, resultPlayerCondition[0])
     # Prevê qual ação se deve tomar baseado na diferença de força e a condição do player
     actionResult = actionAI.predict([[playerStrengthDiff, resultPlayerCondition[0]]])
 
     print(f"{ANSI.UNDERLINE}A melhor ação é:{ANSI.END}")
     print(f"{ANSI.BOLD}{actionLabel[actionResult[0]]}{ANSI.END}")
+    time.sleep(1.5)
